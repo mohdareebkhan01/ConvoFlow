@@ -2,6 +2,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import path from "path";
+import {ENV} from "./lib/env.js";
 
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
@@ -13,7 +14,7 @@ const app = express();
 
 const __dirname = path.resolve();
 
-const PORT = process.env.PORT || 3000;
+const PORT = ENV.PORT || 3000;
 
 app.use(express.json());
 
@@ -21,7 +22,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
 //make ready for deployement
- if(process.env.NODE_ENV === "production") {
+ if(ENV.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../frontend/dist")))
 
     app.get("/{*splat}", (req, res) => {
@@ -31,7 +32,6 @@ app.use("/api/messages", messageRoutes);
 });
 }
  
-
 app.listen(PORT,() => {
     console.log("Server running on port: " + PORT)
      connectDB();
