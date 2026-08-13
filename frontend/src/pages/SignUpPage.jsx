@@ -1,67 +1,193 @@
+import { useState } from "react";
+import { useAuthStore } from "../store/useAuthStore";
+import BorderAnimatedContainer from "../components/BorderAnimatedContainer";
+import {
+  MessageCircleIcon,
+  LockIcon,
+  MailIcon,
+  UserIcon,
+  LoaderIcon,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+
 function SignUpPage() {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+  });
+
+  const { signup, isSigningUp } = useAuthStore();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signup(formData);
+  };
+
   return (
-    <div className="min-h-[80vh] flex items-center justify-center">
-      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-slate-900/80 backdrop-blur-xl p-8 shadow-2xl">
+    <div className="w-full flex items-center justify-center px-4 py-6">
+      <div className="relative w-full max-w-5xl h-[600px]">
+        <BorderAnimatedContainer>
+          <div className="w-full h-full flex flex-col md:flex-row">
 
-        <h1 className="text-3xl font-bold text-white text-center">
-          Create Account
-        </h1>
+            {/* LEFT SIDE */}
+            <div className="w-full md:w-1/2 p-6 md:p-8 flex items-center justify-center md:border-r border-slate-600/30">
+              <div className="w-full max-w-md">
 
-        <p className="text-slate-400 text-center mt-2">
-          Join ConvoFlow today
-        </p>
+                {/* HEADING */}
+                <div className="text-center mb-5">
+                  <MessageCircleIcon className="w-10 h-10 mx-auto text-slate-400 mb-3" />
 
-        <div className="mt-8 space-y-4">
+                  <h2 className="text-2xl font-bold text-slate-200 mb-1">
+                    Create Account
+                  </h2>
 
-          <div>
-            <label className="text-sm text-slate-300">
-              Full Name
-            </label>
+                  <p className="text-slate-400 text-sm">
+                    Sign up for a new account
+                  </p>
+                </div>
 
-            <input
-              type="text"
-              placeholder="Enter your name"
-              className="mt-2 w-full rounded-lg border border-slate-700 bg-slate-800/70 px-4 py-3 text-white outline-none focus:border-blue-500"
-            />
+                {/* FORM */}
+                <form onSubmit={handleSubmit} className="space-y-4">
+
+                  {/* FULL NAME */}
+                  <div>
+                    <label className="auth-input-label">
+                      Full Name
+                    </label>
+
+                    <div className="relative">
+                      <UserIcon className="auth-input-icon" />
+
+                      <input
+                        type="text"
+                        value={formData.fullName}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            fullName: e.target.value,
+                          })
+                        }
+                        className="input"
+                        placeholder="John Doe"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  {/* EMAIL */}
+                  <div>
+                    <label className="auth-input-label">
+                      Email
+                    </label>
+
+                    <div className="relative">
+                      <MailIcon className="auth-input-icon" />
+
+                      <input
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            email: e.target.value,
+                          })
+                        }
+                        className="input"
+                        placeholder="johndoe@gmail.com"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  {/* PASSWORD */}
+                  <div>
+                    <label className="auth-input-label">
+                      Password
+                    </label>
+
+                    <div className="relative">
+                      <LockIcon className="auth-input-icon" />
+
+                      <input
+                        type="password"
+                        value={formData.password}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            password: e.target.value,
+                          })
+                        }
+                        className="input"
+                        placeholder="Enter your password"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  {/* BUTTON */}
+                  <button
+                    className="auth-btn"
+                    type="submit"
+                    disabled={isSigningUp}
+                  >
+                    {isSigningUp ? (
+                      <LoaderIcon className="w-5 h-5 mx-auto animate-spin" />
+                    ) : (
+                      "Create Account"
+                    )}
+                  </button>
+
+                </form>
+
+                {/* LOGIN */}
+                <div className="mt-4 text-center">
+                  <Link to="/login" className="auth-link">
+                    Already have an account? Login
+                  </Link>
+                </div>
+
+              </div>
+            </div>
+
+            {/* RIGHT SIDE */}
+            <div className="hidden md:w-1/2 md:flex items-center justify-center p-6 bg-gradient-to-bl from-slate-800/20 to-transparent">
+
+              <div className="w-full max-w-sm text-center">
+
+                <img
+                  src="/signup.png"
+                  alt="People using mobile devices"
+                  className="w-full max-w-[280px] mx-auto h-auto object-contain"
+                />
+
+                <div className="mt-4">
+
+                  <h3 className="text-lg font-medium text-cyan-400">
+                    Start Your Journey Today
+                  </h3>
+
+                  <div className="mt-3 flex justify-center gap-3">
+                    <span className="auth-badge">
+                      Free
+                    </span>
+
+                    <span className="auth-badge">
+                      Easy Setup
+                    </span>
+
+                    <span className="auth-badge">
+                      Private
+                    </span>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
           </div>
-
-          <div>
-            <label className="text-sm text-slate-300">
-              Email
-            </label>
-
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="mt-2 w-full rounded-lg border border-slate-700 bg-slate-800/70 px-4 py-3 text-white outline-none focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="text-sm text-slate-300">
-              Password
-            </label>
-
-            <input
-              type="password"
-              placeholder="Create a password"
-              className="mt-2 w-full rounded-lg border border-slate-700 bg-slate-800/70 px-4 py-3 text-white outline-none focus:border-blue-500"
-            />
-          </div>
-
-          <button className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white hover:bg-blue-500 transition">
-            Create Account
-          </button>
-
-        </div>
-
-        <p className="mt-6 text-center text-sm text-slate-400">
-          Already have an account?{" "}
-          <a href="/login" className="text-blue-400 hover:text-blue-300">
-            Login
-          </a>
-        </p>
-
+        </BorderAnimatedContainer>
       </div>
     </div>
   );
