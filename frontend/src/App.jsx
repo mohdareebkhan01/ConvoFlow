@@ -47,7 +47,7 @@ function App() {
       {/* PAGE CONTENT */}
       <div className="relative z-10 w-full">
 
-        {/* <button onClick={login}>login</button> */}
+        {/* <button onClick={login}>login</button> */} 
 
         <Routes>
           <Route path="/" element={authUser ? <ChatPage /> : <Navigate to={"/login"}/>} />
